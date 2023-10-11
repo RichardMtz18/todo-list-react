@@ -9,7 +9,7 @@ function ListItem({text, onDelete}){
         setChecked(!checked);
     }
     return (
-    <li className={`p-2 bg-indigo-800 ${checked ? 'text-green-400 line-through' : null}`}>
+    <li className={`rounded-md p-2 bg-indigo-800 ${checked ? 'text-green-400 line-through' : null}`}>
         {text} <input type="checkbox" checked={checked} onChange={handleCheck}/>
     </li>
     );
