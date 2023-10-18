@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function ListItem({text, onDelete}){
     const [checked, setChecked] = useState(false);
 
+    useEffect(() => {
+        // init component
+        console.log('Init');
+        return () => {
+            console.log('cleanup');
+        };
+    }, []);
 
     const handleCheck = () => {
 
