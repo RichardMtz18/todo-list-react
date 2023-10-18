@@ -7,7 +7,7 @@ function Todo() {
   const [todos, setTodos] = useState([]);
   const inputRef = useRef(null);
 
-  // // DependencyList is null exec once 
+  // // DependencyList is null exec once
   // useEffect(() => {
   //   // fetch api
   //   //initialize connection
@@ -24,11 +24,21 @@ function Todo() {
     console.log("useEffect", todos);
   }, [todos]);
 
-  
+  useEffect(() => {
+    const getTodos = () => {
+      fetch("https://rickandmortyapi.com/api/character")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        });
+    };
+    getTodos();
+  }, []);
+
   // Add a new todo
   const addTodo = () => {
     const todoValue = inputRef.current.value;
-    const newTodo = { name: todoValue, id: uuidv4()}
+    const newTodo = { name: todoValue, id: uuidv4() };
     console.log("before", todos);
     setTodos([...todos, newTodo]);
     console.log("after", todos);
