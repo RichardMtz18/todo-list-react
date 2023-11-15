@@ -1,8 +1,29 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useReducer } from "react";
 import ListItem from "../components/ListItem";
 import { v4 as uuidv4 } from "uuid";
 
+function reducer(state, action) {
+  console.log(action, state);
+  // ACTIONS
+  switch (action.type) {
+    case "ADD_TODO":
+      // alert("TODO added");
+      return {
+        ...state,
+        todos: [action.newTodo, ...state.todos],
+      };
+    default:
+      throw new Error("That action type does not exist");
+  }
+}
+
+const initialState = {
+  todos: [{ name: "Hola Mundo", id: 1, checked: false }],
+};
+
 function Todo() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  console.log(state);
   // usestate -> {state, setstate}
   const [todos, setTodos] = useState([]);
   const inputRef = useRef(null);
@@ -38,10 +59,8 @@ function Todo() {
   // Add a new todo
   const addTodo = () => {
     const todoValue = inputRef.current.value;
-    const newTodo = { name: todoValue, id: uuidv4() };
-    console.log("before", todos);
-    setTodos([...todos, newTodo]);
-    console.log("after", todos);
+    const newTodo = { name: todoValue, id: uuidv4(), checked: false };
+    dispatch({ type: "ADD_TODO", newTodo });
     inputRef.current.value = "";
   };
 
@@ -67,7 +86,7 @@ function Todo() {
         </button>
       </div>
       <ul className="flex flex-col gap-2">
-        {todos.map((item) => {
+        {state.todos.map((item) => {
           return (
             <ListItem
               key={item.id}
